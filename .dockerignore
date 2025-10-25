@@ -1,0 +1,87 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Virtual Environments
+venv/
+env/
+.venv
+ENV/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Large Data Files (use S3 or volumes instead)
+*.csv
+data/
+Data-set/
+
+# Model Files (keep versioned ones, exclude large originals)
+models/model.joblib
+models/scaler.joblib
+models/poly.joblib
+
+# OS
+.DS_Store
+Thumbs.db
+*.orig
+
+# Temporary
+*.tmp
+*.bak
+*.log
+
+# Node (if any frontend build tools)
+node_modules/
+npm-debug.log
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# DVC cache (will be recreated in container)
+.dvc/cache/
+.dvc/tmp/
+
+# Documentation
+docs/
+*.md
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+Jenkinsfile
+
+# AWS credentials
+.aws/
+aws_credentials.json
+*.pem
+*.key
+
+# Docker
+docker-compose.override.yml
+Dockerfile.dev
