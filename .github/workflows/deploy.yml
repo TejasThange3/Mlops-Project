@@ -11,7 +11,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository_owner }}/mlops-water-potability
+  IMAGE_NAME: mlops-water-potability
 
 jobs:
   # Job 1: Build and test
@@ -42,8 +42,8 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} .
-          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
+          docker build -t ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:${{ github.sha }} .
+          docker build -t ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest .
 
       - name: Log in to Container Registry
         if: github.event_name == 'push'
@@ -53,8 +53,8 @@ jobs:
       - name: Push Docker image
         if: github.event_name == 'push'
         run: |
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          docker push ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          docker push ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest
 
   # Job 2: Deploy to EC2
   deploy:

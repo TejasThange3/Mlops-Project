@@ -177,8 +177,8 @@ jobs:
           context: .
           push: ${{ github.event_name == 'push' }}
           tags: |
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/mlops-water-potability:${{ github.sha }}
-            ${{ env.REGISTRY }}/${{ github.repository_owner }}/mlops-water-potability:latest
+            ${{ env.REGISTRY }}/tejasthange3/mlops-water-potability:${{ github.sha }}
+            ${{ env.REGISTRY }}/tejasthange3/mlops-water-potability:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
