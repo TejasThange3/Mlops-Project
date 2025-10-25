@@ -1,330 +1,428 @@
 # 🌊 Water Potability Prediction - MLOps Project
 
-An end-to-end machine learning project that predicts water potability (safe to drink or not) based on physicochemical properties. This project demonstrates MLOps best practices using **DVC** for pipeline orchestration and **FastAPI** for model deployment.
+An end-to-end machine learning operations (MLOps) project that predicts water potability with **containerization**, **cloud deployment**, and **automated CI/CD**. This demonstrates enterprise-grade ML practices.
 
-## 📋 Project Overview
+## 🎯 Project Highlights
 
-This project builds a binary classification system to determine if water is safe for human consumption based on 9 water quality features. The entire ML pipeline is version-controlled and reproducible using DVC.
+- ✅ **Local Development** - DVC pipeline, FastAPI API, Jupyter notebooks
+- ✅ **Containerization** - Docker & Docker Compose
+- ✅ **Cloud Deployment** - AWS (S3, EC2, IAM)
+- ✅ **Automated CI/CD** - GitHub Actions workflow
+- ✅ **Model Versioning** - Track multiple model versions
+- ✅ **API Documentation** - Interactive Swagger UI
+- ✅ **Monitoring & Logging** - Production-ready tracking
 
-### Features
+## 📋 Quick Navigation
 
-- ✅ **Data Version Control** with DVC
-- ✅ **Reproducible ML Pipeline** (preprocess → train → evaluate)
-- ✅ **Configurable Hyperparameters** via `params.yaml`
-- ✅ **Multiple Model Support** (RandomForest, XGBoost)
-- ✅ **REST API** with FastAPI and Swagger documentation
-- ✅ **Automated Metrics Tracking**
+| Document                                                 | Purpose                  |
+| -------------------------------------------------------- | ------------------------ |
+| [QUICKSTART.md](./QUICKSTART.md)                         | Get started in 5 minutes |
+| [DOCKER_GUIDE.md](./DOCKER_GUIDE.md)                     | Containerization guide   |
+| [AWS_DEPLOYMENT_GUIDE.md](./AWS_DEPLOYMENT_GUIDE.md)     | Cloud deployment         |
+| [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md)     | CI/CD pipeline           |
+| [MODEL_VERSIONING_GUIDE.md](./MODEL_VERSIONING_GUIDE.md) | Model versioning         |
+| [SIMPLE_COMMANDS.txt](./SIMPLE_COMMANDS.txt)             | Quick command reference  |
 
-## 🏗️ Project Structure
+## 🏗️ Project Architecture
+
+```
+Developer Machine (Local)
+        ↓
+  GitHub Repository
+        ↓
+  GitHub Actions (Build, Test, Deploy)
+        ↓
+  AWS Infrastructure
+        ├─ S3 Bucket (Datasets)
+        └─ EC2 Instance
+           └─ Docker Container
+              └─ FastAPI Application
+```
+
+## 🚀 Getting Started
+
+### Option 1: Local Development (5 minutes)
+
+```bash
+# 1. Clone repository
+git clone https://github.com/TejasThange3/Mlops-Project.git
+cd Mlops-Project
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Run the application
+python -m uvicorn main:app --reload
+
+# 4. Open browser
+# Visit http://localhost:8000
+```
+
+### Option 2: Docker (10 minutes)
+
+```bash
+# 1. Build image
+docker build -t mlops-water-potability:latest .
+
+# 2. Start services
+docker-compose up -d
+
+# 3. Access application
+# Visit http://localhost:8000
+```
+
+### Option 3: AWS Cloud (30 minutes)
+
+```bash
+# 1. Configure AWS
+aws configure
+
+# 2. Run setup script
+pip install boto3
+python aws_setup.py
+
+# 3. Access application
+# Visit http://EC2_PUBLIC_IP:8000
+```
+
+## 📊 Project Structure
 
 ```
 Mlops-Project/
-├── data/
-│   ├── water_quality.csv      # Raw dataset (DVC tracked)
-│   ├── train.csv              # Training data (generated)
-│   └── test.csv               # Test data (generated)
+├── .github/workflows/
+│   ├── deploy.yml                 # Docker build & EC2 deploy
+│   └── mlops-pipeline.yml         # Training & testing pipeline
 ├── src/
-│   ├── preprocess.py          # Data preprocessing script
-│   ├── train.py               # Model training script
-│   └── evaluate.py            # Model evaluation script
+│   ├── preprocess_presplit.py     # Data preprocessing
+│   ├── train_ensemble.py          # Model training
+│   ├── evaluate.py                # Metrics & evaluation
+│   ├── predict_test.py            # Batch predictions
+│   └── model_manager.py           # Version management
 ├── models/
-│   └── model.joblib           # Trained model (generated)
-├── dvc.yaml                   # DVC pipeline definition
-├── params.yaml                # Hyperparameters configuration
-├── requirements.txt           # Python dependencies
-├── main.py                    # FastAPI application
-├── metrics.json               # Evaluation metrics (generated)
-└── README.md                  # This file
+│   ├── model.joblib               # Current model
+│   ├── scaler.joblib              # Feature scaler
+│   └── versions/                  # Model version history
+├── static/
+│   ├── index.html                 # Web interface
+│   ├── css/style.css              # Styling
+│   └── js/app.js                  # Frontend logic
+├── data/
+│   ├── train.csv                  # Training data
+│   └── test.csv                   # Test data
+├── main.py                        # FastAPI application
+├── docker-compose.yml             # Container orchestration
+├── Dockerfile                     # Container specification
+├── dvc.yaml                       # ML pipeline
+├── params.yaml                    # Hyperparameters
+├── requirements.txt               # Python dependencies
+├── aws_setup.py                   # AWS infrastructure setup
+└── README.md                      # This file
 ```
 
-## 🚀 Quick Start
+## 🔄 Workflow
 
-### 1. Installation
+### 1. Development Phase
 
 ```bash
-# Install Python dependencies
-pip install -r requirements.txt
+# Make changes locally
+git add .
+git commit -m "Add new feature"
+git push origin main
 ```
 
-### 2. Run the DVC Pipeline
+### 2. GitHub Actions Phase
 
-The pipeline consists of three stages: preprocess, train, and evaluate.
+✅ **Automatically runs:**
+
+- Data validation
+- Model training (DVC pipeline)
+- Unit tests
+- API endpoint tests
+- Docker image build
+- Container push to registry
+
+### 3. Deployment Phase
+
+✅ **Automatically deploys to:**
+
+- EC2 instance
+- Updates running containers
+- Health checks
+- Slack notifications
+
+### 4. Production Phase
+
+✅ **Application serves:**
+
+- Web UI at root path
+- API at `/predict` endpoint
+- Swagger docs at `/docs`
+- Health check at `/health`
+
+## 🌐 API Endpoints
 
 ```bash
-# Run the entire pipeline
-dvc repro
-
-# Or run stages individually:
-dvc repro preprocess  # Preprocess data
-dvc repro train       # Train model
-dvc repro evaluate    # Evaluate model
-```
-
-### 3. View Metrics
-
-```bash
-# Show metrics from the latest run
-dvc metrics show
-
-# Compare metrics across different runs
-dvc metrics diff
-```
-
-### 4. Deploy the API
-
-```bash
-# Start the FastAPI server
-python main.py
-
-# Or use uvicorn directly:
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
-```
-
-The API will be available at:
-
-- **API Endpoint**: http://localhost:8000
-- **Interactive Docs (Swagger)**: http://localhost:8000/docs
-- **Alternative Docs (ReDoc)**: http://localhost:8000/redoc
-
-## 📊 Dataset
-
-The project uses the **Water Quality** dataset containing 3,276 samples with 9 physicochemical features:
-
-| Feature           | Description                   | Unit                           |
-| ----------------- | ----------------------------- | ------------------------------ |
-| `ph`              | pH value                      | 0-14 scale                     |
-| `Hardness`        | Water hardness                | mg/L                           |
-| `Solids`          | Total dissolved solids        | ppm                            |
-| `Chloramines`     | Chloramines concentration     | ppm                            |
-| `Sulfate`         | Sulfate concentration         | mg/L                           |
-| `Conductivity`    | Electrical conductivity       | μS/cm                          |
-| `Organic_carbon`  | Organic carbon content        | ppm                            |
-| `Trihalomethanes` | Trihalomethanes concentration | μg/L                           |
-| `Turbidity`       | Turbidity                     | NTU                            |
-| **Potability**    | Target variable               | 0 (Not Potable) or 1 (Potable) |
-
-## ⚙️ Configuration
-
-Edit `params.yaml` to customize the pipeline:
-
-```yaml
-preprocess:
-  test_size: 0.2 # Train-test split ratio
-  random_state: 42 # Random seed
-  imputation_strategy: "mean" # 'mean', 'median', or 'most_frequent'
-
-train:
-  model_type: "RandomForest" # 'RandomForest' or 'XGBoost'
-  n_estimators: 100 # Number of trees
-  max_depth: 10 # Maximum tree depth
-  min_samples_split: 5 # Min samples to split node
-  min_samples_leaf: 2 # Min samples in leaf node
-```
-
-## 🔄 DVC Pipeline Stages
-
-### Stage 1: Preprocess
-
-```bash
-python src/preprocess.py
-```
-
-- Handles missing values using imputation
-- Splits data into training (80%) and testing (20%) sets
-- Outputs: `data/train.csv`, `data/test.csv`
-
-### Stage 2: Train
-
-```bash
-python src/train.py
-```
-
-- Trains a RandomForest or XGBoost classifier
-- Uses hyperparameters from `params.yaml`
-- Outputs: `models/model.joblib`
-
-### Stage 3: Evaluate
-
-```bash
-python src/evaluate.py
-```
-
-- Evaluates model on test data
-- Calculates accuracy, precision, recall, F1-score
-- Outputs: `metrics.json`
-
-## 🌐 API Usage
-
-### Health Check
-
-```bash
+# Health check
 curl http://localhost:8000/health
-```
 
-### Single Prediction
-
-```bash
-curl -X POST "http://localhost:8000/predict" \
+# Make prediction
+curl -X POST http://localhost:8000/predict \
   -H "Content-Type: application/json" \
   -d '{
-    "ph": 7.0,
-    "Hardness": 200.0,
-    "Solids": 20000.0,
-    "Chloramines": 7.5,
-    "Sulfate": 350.0,
-    "Conductivity": 400.0,
-    "Organic_carbon": 14.0,
-    "Trihalomethanes": 70.0,
-    "Turbidity": 4.0
+    "pH": 7.5,
+    "Hardness": 150,
+    "Solids": 10000,
+    "Chloramines": 5.5,
+    "Sulfate": 200,
+    "Conductivity": 500,
+    "Organic_carbon": 10,
+    "Trihalomethanes": 100,
+    "Turbidity": 3.5
+  }'
+
+# Interactive documentation
+# Visit http://localhost:8000/docs
+```
+
+## 📈 Model Versioning
+
+The system supports multiple model versions:
+
+```bash
+# View available versions
+curl http://localhost:8000/models/versions
+
+# Switch model version
+curl -X POST http://localhost:8000/models/switch \
+  -H "Content-Type: application/json" \
+  -d '{"version": "V1"}'
+
+# Get current model info
+curl http://localhost:8000/models/current
+
+# Retrain with user feedback
+curl -X POST http://localhost:8000/retrain \
+  -H "Content-Type: application/json" \
+  -d '{
+    "water_quality": {...},
+    "actual_potability": 1
   }'
 ```
 
-**Response:**
+## 🐳 Docker & Containerization
 
-```json
-{
-  "potability": 1,
-  "potability_label": "Potable",
-  "confidence": 0.85
-}
-```
+Complete containerization with:
 
-### Batch Prediction
+- **FastAPI** application service
+- **PostgreSQL** database
+- **Redis** cache layer
+- Health checks for all services
+- Persistent volumes for data
 
 ```bash
-curl -X POST "http://localhost:8000/predict/batch" \
-  -H "Content-Type: application/json" \
-  -d '[
-    {
-      "ph": 7.0,
-      "Hardness": 200.0,
-      "Solids": 20000.0,
-      "Chloramines": 7.5,
-      "Sulfate": 350.0,
-      "Conductivity": 400.0,
-      "Organic_carbon": 14.0,
-      "Trihalomethanes": 70.0,
-      "Turbidity": 4.0
-    },
-    {
-      "ph": 6.5,
-      "Hardness": 150.0,
-      "Solids": 15000.0,
-      "Chloramines": 6.0,
-      "Sulfate": 300.0,
-      "Conductivity": 350.0,
-      "Organic_carbon": 12.0,
-      "Trihalomethanes": 60.0,
-      "Turbidity": 3.5
-    }
-  ]'
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f app
+
+# Stop services
+docker-compose down
+
+# View metrics
+docker stats
 ```
 
-## 📈 Model Performance
+See [DOCKER_GUIDE.md](./DOCKER_GUIDE.md) for details.
 
-After running the pipeline, check `metrics.json` for detailed performance metrics:
+## ☁️ AWS Cloud Deployment
 
-```json
-{
-  "accuracy": 0.6234,
-  "precision": 0.6543,
-  "recall": 0.5891,
-  "f1_score": 0.6201,
-  "confusion_matrix": {
-    "true_negative": 345,
-    "false_positive": 123,
-    "false_negative": 89,
-    "true_positive": 199
-  }
-}
-```
+Fully automated AWS setup:
 
-## 🔧 Advanced Usage
-
-### Experiment Tracking
+- S3 bucket for datasets
+- EC2 instance (Ubuntu 22.04)
+- Security groups & IAM roles
+- Auto-deployment script
 
 ```bash
-# View pipeline DAG
-dvc dag
+# One-command deployment
+python aws_setup.py
 
-# Check pipeline status
-dvc status
-
-# Show parameter dependencies
-dvc params diff
+# Access your deployed app
+# http://EC2_PUBLIC_IP:8000
 ```
 
-### Model Versioning
+See [AWS_DEPLOYMENT_GUIDE.md](./AWS_DEPLOYMENT_GUIDE.md) for details.
+
+## 🔄 GitHub Actions CI/CD
+
+Two automated workflows:
+
+### 1. `deploy.yml` - Build & Deploy
+
+- Triggers on push to main/develop
+- Builds Docker image
+- Runs tests
+- Deploys to EC2
+- Sends Slack notifications
+
+### 2. `mlops-pipeline.yml` - ML Training
+
+- Validates datasets
+- Runs DVC pipeline
+- Trains models
+- Evaluates performance
+- Generates metrics
+
+**Setup:**
+
+1. Add GitHub Secrets: `EC2_HOST`, `EC2_PRIVATE_KEY`
+2. Push to main branch
+3. Watch Actions tab for automation
+
+See [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md) for details.
+
+## 📊 Metrics & Monitoring
+
+The model achieves:
+
+- **Training Accuracy**: 84.39%
+- **ROC-AUC**: 92.77%
+- **Precision**: 86.53%
+- **Recall**: 71.06%
+- **F1-Score**: 78.04%
+
+View metrics:
 
 ```bash
-# Tag a specific model version
-dvc tag -a my-model-v1.0 models/model.joblib
+# DVC metrics
+dvc metrics show
 
-# List all versions
-dvc tag list
+# JSON output
+cat metrics.json | python -m json.tool
 ```
-
-### Hyperparameter Tuning
-
-1. Modify `params.yaml` with new parameters
-2. Run `dvc repro` to retrain with new settings
-3. Compare metrics: `dvc metrics diff`
-
-## 📝 API Endpoints
-
-| Method | Endpoint         | Description             |
-| ------ | ---------------- | ----------------------- |
-| GET    | `/`              | Root endpoint, API info |
-| GET    | `/health`        | Health check            |
-| POST   | `/predict`       | Single prediction       |
-| POST   | `/predict/batch` | Batch predictions       |
-| GET    | `/docs`          | Interactive Swagger UI  |
-| GET    | `/redoc`         | ReDoc documentation     |
-
-## 🧪 Testing the API
-
-Visit http://localhost:8000/docs to access the interactive Swagger documentation where you can:
-
-- View all available endpoints
-- Test API requests directly from the browser
-- See request/response schemas
-- Explore example payloads
 
 ## 🛠️ Technology Stack
 
-- **ML Framework**: scikit-learn, XGBoost
-- **Data Processing**: pandas, numpy
-- **Pipeline Orchestration**: DVC
-- **API Framework**: FastAPI
-- **Web Server**: Uvicorn
-- **Validation**: Pydantic
-- **Model Serialization**: joblib
+| Category             | Tools                                |
+| -------------------- | ------------------------------------ |
+| **ML**               | scikit-learn, XGBoost, pandas, numpy |
+| **API**              | FastAPI, Pydantic, Uvicorn           |
+| **Containerization** | Docker, Docker Compose               |
+| **Cloud**            | AWS (S3, EC2, IAM)                   |
+| **Pipeline**         | DVC, Git                             |
+| **CI/CD**            | GitHub Actions                       |
+| **Frontend**         | HTML, CSS, JavaScript                |
+| **Database**         | PostgreSQL, Redis                    |
 
-## 📦 Requirements
+## 🔐 Security Features
 
-See `requirements.txt` for the complete list of dependencies.
+- ✅ API request validation (Pydantic)
+- ✅ Security groups restrict access
+- ✅ IAM roles follow least privilege
+- ✅ Environment variables for secrets
+- ✅ Health checks for liveness/readiness
+- ✅ CORS configured for API
+
+## 📈 Scaling Considerations
+
+The architecture supports:
+
+- **Horizontal scaling** - Add more EC2 instances
+- **Load balancing** - AWS ALB/NLB
+- **Auto-scaling** - Based on CPU/memory
+- **Database replication** - RDS multi-AZ
+- **CDN** - CloudFront for static content
+
+## 🐛 Troubleshooting
+
+Common issues and solutions:
+
+### Docker container won't start
+
+```bash
+docker-compose logs app
+# Check for port conflicts or memory issues
+```
+
+### API not responding
+
+```bash
+# Check health endpoint
+curl http://localhost:8000/health
+
+# View application logs
+docker logs mlops-water-potability-app
+```
+
+### EC2 deployment failed
+
+```bash
+# SSH into instance
+ssh -i mlops-keypair.pem ubuntu@EC2_IP
+
+# Check Docker status
+docker ps
+docker logs mlops-water-potability-app
+```
+
+See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) for comprehensive debugging guide.
+
+## 📚 Learning Resources
+
+- [DVC Documentation](https://dvc.org/doc)
+- [FastAPI Tutorial](https://fastapi.tiangolo.com/)
+- [Docker Getting Started](https://docs.docker.com/get-started/)
+- [AWS EC2 Guide](https://docs.aws.amazon.com/ec2/)
+- [GitHub Actions Docs](https://docs.github.com/en/actions)
 
 ## 🤝 Contributing
 
-1. Modify pipeline stages or parameters
-2. Run `dvc repro` to validate changes
-3. Check metrics with `dvc metrics show`
-4. Test API endpoints thoroughly
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/my-feature`
+3. Make changes and commit
+4. Push to branch: `git push origin feature/my-feature`
+5. Open pull request
+
+The CI/CD pipeline will automatically test your changes!
 
 ## 📄 License
 
 This project is for educational purposes.
 
-## 🌟 Next Steps
+## 🎓 Learning Outcomes
 
-- [ ] Add experiment tracking with MLflow or Weights & Biases
-- [ ] Implement feature engineering pipeline
-- [ ] Add data drift detection
-- [ ] Create Docker container for deployment
-- [ ] Add CI/CD pipeline with GitHub Actions
-- [ ] Implement A/B testing for models
-- [ ] Add logging and monitoring
+After completing this project, you'll understand:
+
+- ✅ End-to-end ML pipeline design
+- ✅ Data versioning with DVC
+- ✅ Docker containerization
+- ✅ Cloud deployment on AWS
+- ✅ CI/CD automation with GitHub Actions
+- ✅ Model versioning and management
+- ✅ API development with FastAPI
+- ✅ Production ML best practices
+
+## 🚀 Next Steps
+
+1. **Local Setup** → [QUICKSTART.md](./QUICKSTART.md)
+2. **Containerization** → [DOCKER_GUIDE.md](./DOCKER_GUIDE.md)
+3. **AWS Deployment** → [AWS_DEPLOYMENT_GUIDE.md](./AWS_DEPLOYMENT_GUIDE.md)
+4. **CI/CD Setup** → [GITHUB_ACTIONS_SETUP.md](./GITHUB_ACTIONS_SETUP.md)
+5. **Model Versioning** → [MODEL_VERSIONING_GUIDE.md](./MODEL_VERSIONING_GUIDE.md)
+
+## 📞 Support
+
+- 📖 **Documentation** - Check the guides linked above
+- 🐛 **Issues** - [GitHub Issues](https://github.com/TejasThange3/Mlops-Project/issues)
+- 💬 **Discussions** - [GitHub Discussions](https://github.com/TejasThange3/Mlops-Project/discussions)
 
 ---
 
-**Built with ❤️ using DVC and FastAPI**
+<div align="center">
+
+**Built with ❤️ using Python, DVC, FastAPI, Docker, and AWS**
+
+[GitHub](https://github.com/TejasThange3/Mlops-Project) • [Issues](https://github.com/TejasThange3/Mlops-Project/issues)
+
+</div>
