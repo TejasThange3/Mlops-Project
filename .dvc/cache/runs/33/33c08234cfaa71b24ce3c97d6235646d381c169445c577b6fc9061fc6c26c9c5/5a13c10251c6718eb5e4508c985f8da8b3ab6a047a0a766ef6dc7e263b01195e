@@ -1,0 +1,24 @@
+cmd: D:/Python/python.exe src/train.py
+deps:
+- path: data/train.csv
+  hash: md5
+  md5: b1ac831318ef2aadfb0df4ed0f5ffdf9
+  size: 437148
+- path: src/train.py
+  hash: md5
+  md5: cbea2095d4c8a277255630c79ceff884
+  size: 3845
+params:
+  params.yaml:
+    train.class_weight: balanced
+    train.max_depth: 15
+    train.min_samples_leaf: 1
+    train.min_samples_split: 2
+    train.model_type: RandomForest
+    train.n_estimators: 200
+    train.random_state: 42
+outs:
+- path: models/model.joblib
+  hash: md5
+  md5: af7dc274fc823c2a05d5103b7c68456c
+  size: 9994985

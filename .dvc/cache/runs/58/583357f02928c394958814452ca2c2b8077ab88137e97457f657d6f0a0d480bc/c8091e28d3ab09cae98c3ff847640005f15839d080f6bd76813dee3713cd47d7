@@ -1,0 +1,26 @@
+cmd: D:/Python/python.exe src/preprocess_presplit.py
+deps:
+- path: Data-set/test_dataset.csv
+  hash: md5
+  md5: b98097726205cc6d26b0cee0f00b5329
+  size: 161107
+- path: Data-set/train_dataset.csv
+  hash: md5
+  md5: 615282ecd272bd38658bd7b82557b7ce
+  size: 380278
+- path: src/preprocess_presplit.py
+  hash: md5
+  md5: 219469ed22780c7cee2df183cedfb501
+  size: 5069
+params:
+  params.yaml:
+    preprocess.feature_scaling: true
+outs:
+- path: data/test.csv
+  hash: md5
+  md5: 10a3bc437410d5f14deca8de5fd18ac0
+  size: 175851
+- path: data/train.csv
+  hash: md5
+  md5: 13007e900595effb60913d4878bc4193
+  size: 414257

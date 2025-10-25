@@ -1,0 +1,64 @@
+{
+  "current_version": "V5",
+  "versions": {
+    "Original": {
+      "created_at": "2025-10-08T09:49:25.786948",
+      "description": "Original ensemble model (RF + XGBoost + GB)",
+      "training_samples": 2293,
+      "model_path": "model.joblib",
+      "scaler_path": "scaler.joblib",
+      "accuracy": 0.8439,
+      "cv_accuracy": 0.6424
+    },
+    "V1": {
+      "created_at": "2025-10-08T10:25:52.852319",
+      "description": "Retrained with 10 additional sample(s)",
+      "training_samples": 2303,
+      "incremental_samples": 10,
+      "model_path": "model_V1.joblib",
+      "scaler_path": "scaler_V1.joblib",
+      "accuracy": 0.8206686930091185,
+      "cv_accuracy": 0.6591323210412148
+    },
+    "V2": {
+      "created_at": "2025-10-08T10:28:43.845439",
+      "description": "Retrained with 11 additional sample(s)",
+      "training_samples": 2304,
+      "incremental_samples": 11,
+      "model_path": "model_V2.joblib",
+      "scaler_path": "scaler_V2.joblib",
+      "accuracy": 0.8272569444444444,
+      "cv_accuracy": 0.6566820711119494
+    },
+    "V3": {
+      "created_at": "2025-10-09T05:57:25.627613",
+      "description": "Retrained with 12 additional sample(s)",
+      "training_samples": 2305,
+      "incremental_samples": 12,
+      "model_path": "model_V3.joblib",
+      "scaler_path": "scaler_V3.joblib",
+      "accuracy": 0.8321041214750542,
+      "cv_accuracy": 0.655531453362256
+    },
+    "V4": {
+      "created_at": "2025-10-09T09:40:15.816127",
+      "description": "Retrained with 13 additional sample(s)",
+      "training_samples": 2306,
+      "incremental_samples": 13,
+      "model_path": "model_V4.joblib",
+      "scaler_path": "scaler_V4.joblib",
+      "accuracy": 0.8235039028620988,
+      "cv_accuracy": 0.6552488003681062
+    },
+    "V5": {
+      "created_at": "2025-10-13T13:31:48.808546",
+      "description": "Retrained with 14 additional sample(s)",
+      "training_samples": 2307,
+      "incremental_samples": 14,
+      "model_path": "model_V5.joblib",
+      "scaler_path": "scaler_V5.joblib",
+      "accuracy": 0.8279150411790204,
+      "cv_accuracy": 0.6579917551717986
+    }
+  }
+}

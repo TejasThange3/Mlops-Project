@@ -1,0 +1,19 @@
+cmd: D:/Python/python.exe src/evaluate.py
+deps:
+- path: data/train.csv
+  hash: md5
+  md5: 8f8a37e891ce341d8d0c6a441c7942ab
+  size: 2446660
+- path: models/model.joblib
+  hash: md5
+  md5: 040e79306e05131cc32bb3867d2c5e6f
+  size: 4729809
+- path: src/evaluate.py
+  hash: md5
+  md5: c6ea1bd6753b79cfa2fa488286647d61
+  size: 6463
+outs:
+- path: metrics.json
+  hash: md5
+  md5: 154962030feb39305dcab01d6c8a03fb
+  size: 902

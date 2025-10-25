@@ -1,0 +1,24 @@
+cmd: D:/Python/python.exe src/preprocess.py
+deps:
+- path: data/water_quality.csv
+  hash: md5
+  md5: a5eeae83d792e40da6c2f9e1eab945fc
+  size: 525187
+- path: src/preprocess.py
+  hash: md5
+  md5: 61ffee5e34f5092154875ee6b5b2bc1d
+  size: 3202
+params:
+  params.yaml:
+    preprocess.imputation_strategy: mean
+    preprocess.random_state: 42
+    preprocess.test_size: 0.25
+outs:
+- path: data/test.csv
+  hash: md5
+  md5: 2ff92c6568a2341d7030e0fc530251f6
+  size: 136740
+- path: data/train.csv
+  hash: md5
+  md5: 70affd80c097b19b9709729e60b901c0
+  size: 409900

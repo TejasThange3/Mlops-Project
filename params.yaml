@@ -1,0 +1,38 @@
+# Parameters for Water Potability Prediction Pipeline
+
+preprocess:
+  test_size: 0.2
+  random_state: 42
+  missing_value_strategy: "drop" # Drop rows with missing values for cleaner data
+  imputation_strategy: "mean" # Used if missing_value_strategy is 'impute'
+  feature_scaling: true # Standardize features for better performance
+  add_polynomial_features: false # Disable polynomial to reduce overfitting
+  polynomial_degree: 2 # Degree of polynomial features
+
+train:
+  model_type: "Ensemble" # Use ensemble for better accuracy
+  random_state: 42
+
+  # RandomForest parameters - FINE-TUNED for 80% target
+  n_estimators: 250
+  max_depth: 6
+  min_samples_split: 18
+  min_samples_leaf: 9
+  max_features: "sqrt"
+  class_weight: "balanced"
+
+  # XGBoost parameters - FINE-TUNED for 80% target
+  learning_rate: 0.05
+  max_depth_xgb: 4
+  n_estimators_xgb: 300
+  scale_pos_weight: 1.56 # Ratio: 1398/895
+  subsample: 0.75 # Sample 75% of data
+  colsample_bytree: 0.75 # Sample 75% of features
+  gamma: 2.5 # Higher gamma
+  min_child_weight: 8 # Higher regularization
+  reg_alpha: 0.5 # Higher L1
+  reg_lambda: 1.8 # Higher L2
+  early_stopping_rounds: 50 # Stop if no improvement
+
+evaluate:
+  metrics_path: "metrics.json"

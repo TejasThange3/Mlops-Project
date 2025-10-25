@@ -1,0 +1,36 @@
+cmd: D:/Python/python.exe src/train_ensemble.py
+deps:
+- path: data/train.csv
+  hash: md5
+  md5: 8f8a37e891ce341d8d0c6a441c7942ab
+  size: 2446660
+- path: src/train_ensemble.py
+  hash: md5
+  md5: 6c6b6bb303a27ccb0d10efc524c2697e
+  size: 6305
+params:
+  params.yaml:
+    train.class_weight: balanced
+    train.colsample_bytree: 0.8
+    train.early_stopping_rounds: 50
+    train.gamma: 1.0
+    train.learning_rate: 0.01
+    train.max_depth: 8
+    train.max_depth_xgb: 4
+    train.max_features: sqrt
+    train.min_child_weight: 3
+    train.min_samples_leaf: 8
+    train.min_samples_split: 15
+    train.model_type: XGBoost
+    train.n_estimators: 150
+    train.n_estimators_xgb: 500
+    train.random_state: 42
+    train.reg_alpha: 0.3
+    train.reg_lambda: 1.5
+    train.scale_pos_weight: 1.56
+    train.subsample: 0.8
+outs:
+- path: models/model.joblib
+  hash: md5
+  md5: f4cd49048cc731b4ea189ecafdc1c03c
+  size: 758678

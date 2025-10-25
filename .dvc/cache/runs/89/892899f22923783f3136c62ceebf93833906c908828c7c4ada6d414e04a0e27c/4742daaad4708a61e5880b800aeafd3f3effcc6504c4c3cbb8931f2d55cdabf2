@@ -1,0 +1,19 @@
+cmd: D:/Python/python.exe src/predict_test.py
+deps:
+- path: data/test.csv
+  hash: md5
+  md5: f72cd105727863aa67574e749df780a5
+  size: 1047178
+- path: models/model.joblib
+  hash: md5
+  md5: 040e79306e05131cc32bb3867d2c5e6f
+  size: 4729809
+- path: src/predict_test.py
+  hash: md5
+  md5: ea7fd600efaf07e6eeb062a6cff67902
+  size: 2852
+outs:
+- path: predictions.csv
+  hash: md5
+  md5: 047cac005b8785c45d526d994cd3f518
+  size: 1058712

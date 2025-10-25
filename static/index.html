@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Water Potability Prediction System</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=20251008102344">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>💧 Water Potability Prediction System</h1>
+            <p>Advanced ML-powered water quality analysis</p>
+            
+            <!-- Model Version Selector -->
+            <div class="model-version-selector">
+                <label for="modelVersionSelect">
+                    <span class="version-label">🤖 Active Model:</span>
+                </label>
+                <select id="modelVersionSelect" class="version-select" onchange="switchModelVersion()">
+                    <option value="Original">Original (Ensemble)</option>
+                </select>
+                <button class="btn-icon" onclick="refreshModelVersions()" title="Refresh versions">
+                    🔄
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="main-card">
+            <!-- Input Section -->
+            <div class="input-section">
+                <h2 class="section-title">Enter Water Quality Parameters</h2>
+                
+                <form id="predictionForm">
+                    <div class="input-grid">
+                        <!-- pH -->
+                        <div class="input-group">
+                            <label for="ph">pH Level</label>
+                            <input type="number" id="ph" name="ph" step="0.01" min="0" max="14" required 
+                                   placeholder="Enter pH (5-10 recommended)">
+                            <div class="input-info">Range: 0-14 (neutral at 7.0)</div>
+                        </div>
+
+                        <!-- Hardness -->
+                        <div class="input-group">
+                            <label for="hardness">Hardness</label>
+                            <input type="number" id="hardness" name="hardness" step="0.01" min="0" required 
+                                   placeholder="Enter hardness in mg/L">
+                            <div class="input-info">Unit: mg/L (typical: 50-300)</div>
+                        </div>
+
+                        <!-- Solids -->
+                        <div class="input-group">
+                            <label for="solids">Total Dissolved Solids</label>
+                            <input type="number" id="solids" name="solids" step="0.01" min="0" required 
+                                   placeholder="Enter TDS in ppm">
+                            <div class="input-info">Unit: ppm (typical: 100-500)</div>
+                        </div>
+
+                        <!-- Chloramines -->
+                        <div class="input-group">
+                            <label for="chloramines">Chloramines</label>
+                            <input type="number" id="chloramines" name="chloramines" step="0.01" min="0" required 
+                                   placeholder="Enter chloramines in ppm">
+                            <div class="input-info">Unit: ppm (typical: 4-10)</div>
+                        </div>
+
+                        <!-- Sulfate -->
+                        <div class="input-group">
+                            <label for="sulfate">Sulfate</label>
+                            <input type="number" id="sulfate" name="sulfate" step="0.01" min="0" required 
+                                   placeholder="Enter sulfate in mg/L">
+                            <div class="input-info">Unit: mg/L (typical: 200-400)</div>
+                        </div>
+
+                        <!-- Conductivity -->
+                        <div class="input-group">
+                            <label for="conductivity">Conductivity</label>
+                            <input type="number" id="conductivity" name="conductivity" step="0.01" min="0" required 
+                                   placeholder="Enter conductivity in μS/cm">
+                            <div class="input-info">Unit: μS/cm (typical: 200-800)</div>
+                        </div>
+
+                        <!-- Organic Carbon -->
+                        <div class="input-group">
+                            <label for="organic_carbon">Organic Carbon</label>
+                            <input type="number" id="organic_carbon" name="organic_carbon" step="0.01" min="0" required 
+                                   placeholder="Enter organic carbon in ppm">
+                            <div class="input-info">Unit: ppm (typical: 2-20)</div>
+                        </div>
+
+                        <!-- Trihalomethanes -->
+                        <div class="input-group">
+                            <label for="trihalomethanes">Trihalomethanes</label>
+                            <input type="number" id="trihalomethanes" name="trihalomethanes" step="0.01" min="0" required 
+                                   placeholder="Enter THMs in μg/L">
+                            <div class="input-info">Unit: μg/L (typical: 20-80)</div>
+                        </div>
+
+                        <!-- Turbidity -->
+                        <div class="input-group">
+                            <label for="turbidity">Turbidity</label>
+                            <input type="number" id="turbidity" name="turbidity" step="0.01" min="0" required 
+                                   placeholder="Enter turbidity in NTU">
+                            <div class="input-info">Unit: NTU (typical: 0-5)</div>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">
+                            🔮 Predict Water Quality
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            🔄 Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>Analyzing water quality parameters...</p>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection">
+                <!-- Prediction Result Card -->
+                <div class="prediction-result" id="predictionCard">
+                    <div class="result-icon" id="resultIcon"></div>
+                    <div class="result-label" id="resultLabel"></div>
+                    <div class="result-confidence" id="resultConfidence"></div>
+                </div>
+
+                <!-- Results Table -->
+                <div class="results-table">
+                    <div class="table-header">
+                        Water Quality Analysis Report
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Value</th>
+                                <th>Unit</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resultsTableBody">
+                            <!-- Results will be populated here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Retrain Section -->
+                <div class="retrain-section" id="retrainSection">
+                    <div class="retrain-card">
+                        <h3>🎯 Help Improve the Model</h3>
+                        <p>Was this prediction correct? Help us retrain the model with your feedback!</p>
+                        
+                        <div class="retrain-form">
+                            <label for="actualPotability">What is the actual result?</label>
+                            <div class="retrain-buttons">
+                                <button class="btn btn-retrain btn-potable" onclick="retrainModel(1)">
+                                    ✅ Water is Potable
+                                </button>
+                                <button class="btn btn-retrain btn-not-potable" onclick="retrainModel(0)">
+                                    ⛔ Water is Not Potable
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="retrain-info">
+                            <small>📊 Retraining creates a new model version with your data included</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>🤖 Powered by Machine Learning | Built with FastAPI & Advanced Ensemble Models</p>
+            <p>© 2025 Water Potability Prediction System</p>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js?v=20251008102344"></script>
+</body>
+</html>

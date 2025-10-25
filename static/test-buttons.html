@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .version-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 15px;
+            background: #e3f2fd;
+            border-radius: 8px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #2196F3;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .refresh-btn {
+            background: #2196F3;
+            color: white;
+        }
+        .retrain-btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px;
+        }
+        .btn-potable {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn-not-potable {
+            background: #f44336;
+            color: white;
+        }
+        h2 {
+            color: #333;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Button Visibility Test Page</h1>
+    
+    <div class="status">
+        <strong>⚠️ If you can see this page but NOT the buttons on the main page, it's a CACHE issue!</strong>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 1: Model Version Selector</h2>
+        <p>This is what should appear at the TOP of the main page:</p>
+        
+        <div class="version-selector">
+            <label><strong>🤖 Active Model:</strong></label>
+            <select>
+                <option>Original (Ensemble)</option>
+                <option>V1 - 2294 samples</option>
+                <option>V2 - 2295 samples</option>
+            </select>
+            <button class="refresh-btn" onclick="alert('Refresh button works!')">🔄</button>
+        </div>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 2: Retrain Buttons</h2>
+        <p>This is what should appear AFTER making a prediction:</p>
+        
+        <div style="padding: 20px; background: linear-gradient(135deg, #667eea15, #764ba215); border-radius: 10px; border: 2px solid #2196F3;">
+            <h3>🎯 Help Improve the Model</h3>
+            <p>Was this prediction correct? Help us retrain the model with your feedback!</p>
+            
+            <p><strong>What is the actual result?</strong></p>
+            
+            <div style="text-align: center;">
+                <button class="retrain-btn btn-potable" onclick="alert('Potable button works!')">
+                    ✅ Water is Potable
+                </button>
+                <button class="retrain-btn btn-not-potable" onclick="alert('Not Potable button works!')">
+                    ⛔ Water is Not Potable
+                </button>
+            </div>
+            
+            <p style="text-align: center; margin-top: 15px;">
+                <small>📊 Retraining creates a new model version with your data included</small>
+            </p>
+        </div>
+    </div>
+
+    <div class="test-box">
+        <h2>✅ What To Do Next</h2>
+        <ol>
+            <li><strong>Close ALL browser tabs</strong> with localhost:8000</li>
+            <li><strong>Clear browser cache:</strong>
+                <ul>
+                    <li>Chrome: Ctrl+Shift+Delete → Clear "Cached images and files" → Clear data</li>
+                    <li>Or use Incognito/Private mode: Ctrl+Shift+N</li>
+                </ul>
+            </li>
+            <li><strong>Go back to:</strong> <a href="http://127.0.0.1:8000/" target="_blank">http://127.0.0.1:8000/</a></li>
+            <li><strong>Hard refresh:</strong> Press Ctrl+Shift+R or Ctrl+F5</li>
+        </ol>
+    </div>
+
+    <div class="test-box">
+        <h2>🔍 Quick Diagnostic</h2>
+        <p>If buttons still don't show after cache clear:</p>
+        <ol>
+            <li>Go to main page</li>
+            <li>Press F12 (open Developer Tools)</li>
+            <li>Click "Console" tab</li>
+            <li>Type: <code>document.querySelector('.model-version-selector')</code></li>
+            <li>Press Enter</li>
+            <li>If it says "null" → HTML problem. If it shows element → CSS problem</li>
+        </ol>
+    </div>
+
+    <div class="test-box" style="background: #ffebee;">
+        <h2>🚨 Nuclear Option (If Nothing Works)</h2>
+        <p>Try opening in a different browser or incognito mode:</p>
+        <ul>
+            <li><strong>Chrome Incognito:</strong> Ctrl+Shift+N, then go to http://127.0.0.1:8000/</li>
+            <li><strong>Firefox Private:</strong> Ctrl+Shift+P, then go to http://127.0.0.1:8000/</li>
+            <li><strong>Edge InPrivate:</strong> Ctrl+Shift+N, then go to http://127.0.0.1:8000/</li>
+        </ul>
+    </div>
+
+</body>
+</html>

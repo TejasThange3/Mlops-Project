@@ -1,0 +1,34 @@
+{
+  "training_metrics": {
+    "accuracy": 0.9376362843436546,
+    "precision": 0.9574209245742092,
+    "recall": 0.8793296089385475,
+    "f1_score": 0.9167152009318579,
+    "roc_auc": 0.9862453145355295
+  },
+  "confusion_matrix": {
+    "true_negatives": 1363,
+    "false_positives": 35,
+    "false_negatives": 108,
+    "true_positives": 787
+  },
+  "cross_validation": {
+    "cv_mean_accuracy": 0.6497921245159878,
+    "cv_std": 0.018121863780592155,
+    "cv_scores": [
+      0.6579520697167756,
+      0.681917211328976,
+      0.6361655773420479,
+      0.6375545851528385,
+      0.6353711790393013
+    ],
+    "cv_min": 0.6353711790393013,
+    "cv_max": 0.681917211328976
+  },
+  "overfitting_analysis": {
+    "training_accuracy": 0.9376362843436546,
+    "cv_accuracy": 0.6497921245159878,
+    "overfitting_gap": 0.28784415982766687,
+    "overfitting_status": "high"
+  }
+}

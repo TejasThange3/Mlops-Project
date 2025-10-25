@@ -1,0 +1,108 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: D:/Python/python.exe src/preprocess_presplit.py
+    deps:
+    - path: Data-set/test_dataset.csv
+      hash: md5
+      md5: b98097726205cc6d26b0cee0f00b5329
+      size: 161107
+    - path: Data-set/train_dataset.csv
+      hash: md5
+      md5: 615282ecd272bd38658bd7b82557b7ce
+      size: 380278
+    - path: src/preprocess_presplit.py
+      hash: md5
+      md5: 80fa1af6a790dcf5152ae9073f9a8bac
+      size: 6358
+    params:
+      params.yaml:
+        preprocess.add_polynomial_features: false
+        preprocess.feature_scaling: true
+        preprocess.polynomial_degree: 2
+    outs:
+    - path: data/test.csv
+      hash: md5
+      md5: 10a3bc437410d5f14deca8de5fd18ac0
+      size: 175851
+    - path: data/train.csv
+      hash: md5
+      md5: 13007e900595effb60913d4878bc4193
+      size: 414257
+  train:
+    cmd: D:/Python/python.exe src/train_ensemble.py
+    deps:
+    - path: data/train.csv
+      hash: md5
+      md5: 13007e900595effb60913d4878bc4193
+      size: 414257
+    - path: src/train_ensemble.py
+      hash: md5
+      md5: 93ccf87de5cbc04db4e6206d9f37e8a0
+      size: 6375
+    params:
+      params.yaml:
+        train.class_weight: balanced
+        train.colsample_bytree: 0.75
+        train.early_stopping_rounds: 50
+        train.gamma: 2.5
+        train.learning_rate: 0.05
+        train.max_depth: 6
+        train.max_depth_xgb: 4
+        train.max_features: sqrt
+        train.min_child_weight: 8
+        train.min_samples_leaf: 9
+        train.min_samples_split: 18
+        train.model_type: Ensemble
+        train.n_estimators: 250
+        train.n_estimators_xgb: 300
+        train.random_state: 42
+        train.reg_alpha: 0.5
+        train.reg_lambda: 1.8
+        train.scale_pos_weight: 1.56
+        train.subsample: 0.75
+    outs:
+    - path: models/model.joblib
+      hash: md5
+      md5: cf123a83f7de1fbe26ff3ff99a7f0f1d
+      size: 2269500
+  evaluate:
+    cmd: D:/Python/python.exe src/evaluate.py
+    deps:
+    - path: data/train.csv
+      hash: md5
+      md5: 13007e900595effb60913d4878bc4193
+      size: 414257
+    - path: models/model.joblib
+      hash: md5
+      md5: cf123a83f7de1fbe26ff3ff99a7f0f1d
+      size: 2269500
+    - path: src/evaluate.py
+      hash: md5
+      md5: b06e2294afe41e5c82bd81deedd4411f
+      size: 6398
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 6c90181b35a2026471d088533dd8f538
+      size: 740
+  predict:
+    cmd: D:/Python/python.exe src/predict_test.py
+    deps:
+    - path: data/test.csv
+      hash: md5
+      md5: 10a3bc437410d5f14deca8de5fd18ac0
+      size: 175851
+    - path: models/model.joblib
+      hash: md5
+      md5: cf123a83f7de1fbe26ff3ff99a7f0f1d
+      size: 2269500
+    - path: src/predict_test.py
+      hash: md5
+      md5: ea7fd600efaf07e6eeb062a6cff67902
+      size: 2852
+    outs:
+    - path: predictions.csv
+      hash: md5
+      md5: 1333d6f5061b5d0eb7da46b87bb82316
+      size: 203077

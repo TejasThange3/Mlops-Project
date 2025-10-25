@@ -1,0 +1,61 @@
+stages:
+  preprocess:
+    cmd: D:/Python/python.exe src/preprocess_presplit.py
+    deps:
+      - Data-set/train_dataset.csv
+      - Data-set/test_dataset.csv
+      - src/preprocess_presplit.py
+    params:
+      - preprocess.feature_scaling
+      - preprocess.add_polynomial_features
+      - preprocess.polynomial_degree
+    outs:
+      - data/train.csv
+      - data/test.csv
+
+  train:
+    cmd: D:/Python/python.exe src/train_ensemble.py
+    deps:
+      - data/train.csv
+      - src/train_ensemble.py
+    params:
+      - train.model_type
+      - train.random_state
+      - train.n_estimators
+      - train.max_depth
+      - train.min_samples_split
+      - train.min_samples_leaf
+      - train.max_features
+      - train.class_weight
+      - train.learning_rate
+      - train.max_depth_xgb
+      - train.n_estimators_xgb
+      - train.scale_pos_weight
+      - train.subsample
+      - train.colsample_bytree
+      - train.gamma
+      - train.min_child_weight
+      - train.reg_alpha
+      - train.reg_lambda
+      - train.early_stopping_rounds
+    outs:
+      - models/model.joblib
+
+  evaluate:
+    cmd: D:/Python/python.exe src/evaluate.py
+    deps:
+      - data/train.csv
+      - models/model.joblib
+      - src/evaluate.py
+    metrics:
+      - metrics.json:
+          cache: false
+
+  predict:
+    cmd: D:/Python/python.exe src/predict_test.py
+    deps:
+      - data/test.csv
+      - models/model.joblib
+      - src/predict_test.py
+    outs:
+      - predictions.csv

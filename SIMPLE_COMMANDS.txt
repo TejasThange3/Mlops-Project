@@ -1,0 +1,380 @@
+# 🚀 Water Potability Prediction - Simple Command Guide
+
+## 📋 Quick Start Commands
+
+Copy and paste these commands one by one in PowerShell.
+
+---
+
+## 1️⃣ First Time Setup (Only Once)
+
+### Install Dependencies
+```powershell
+pip install -r requirements.txt
+```
+
+### Train the Model
+```powershell
+dvc repro
+```
+
+**Wait time:** 2-3 minutes
+
+---
+
+## 2️⃣ Start the Web Application
+
+### Option A: Simple Start (Recommended)
+```powershell
+.\launch.ps1
+```
+**Done!** Browser opens automatically.
+
+---
+
+### Option B: Manual Start
+
+**Step 1: Start Server**
+```powershell
+D:/Python/python.exe -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
+
+**Step 2: Open Browser**
+```powershell
+Start-Process "http://127.0.0.1:8000/"
+```
+
+---
+
+## 3️⃣ Stop the Server
+
+Press `Ctrl + C` in the terminal where server is running
+
+---
+
+## 4️⃣ View Model Metrics
+
+```powershell
+dvc metrics show
+```
+
+---
+
+## 5️⃣ Test API (Terminal Testing)
+
+```powershell
+D:/Python/python.exe test_api.py
+```
+
+---
+
+## 6️⃣ Test Model Versioning
+
+```powershell
+D:/Python/python.exe test_versioning.py
+```
+
+Type `yes` when asked about retraining.
+
+---
+
+## 7️⃣ Retrain the Model (From Scratch)
+
+```powershell
+dvc repro train
+```
+
+---
+
+## 8️⃣ Clear Browser Cache (If Buttons Missing)
+
+### Option A: Force Clear Script
+```powershell
+.\force_clear_cache.ps1
+```
+
+### Option B: Manual Clear
+1. Open Chrome
+2. Press `Ctrl + Shift + Delete`
+3. Check "Cached images and files"
+4. Click "Clear data"
+5. Refresh page: `Ctrl + F5`
+
+---
+
+## 9️⃣ Check if Server is Running
+
+```powershell
+D:/Python/python.exe -c "import requests; print(requests.get('http://127.0.0.1:8000/health').json())"
+```
+
+Should show: `{'status': 'healthy', 'model_loaded': True}`
+
+---
+
+## 🔟 Kill All Python Processes
+
+```powershell
+Get-Process python* | Stop-Process -Force
+```
+
+---
+
+## 🌐 Important URLs
+
+| Service | URL |
+|---------|-----|
+| **Web Interface** | http://127.0.0.1:8000/ |
+| **API Docs** | http://127.0.0.1:8000/docs |
+| **Health Check** | http://127.0.0.1:8000/health |
+| **Test Page** | http://127.0.0.1:8000/static/test-buttons.html |
+
+---
+
+## 🎯 Complete Workflow (From Start to Finish)
+
+### First Time Setup
+```powershell
+# 1. Install everything
+pip install -r requirements.txt
+
+# 2. Train model
+dvc repro
+
+# 3. Check metrics
+dvc metrics show
+
+# 4. Start server
+.\launch.ps1
+```
+
+### Daily Use
+```powershell
+# Start server
+.\launch.ps1
+```
+
+**That's it!** Browser opens to http://127.0.0.1:8000/
+
+---
+
+## 🧪 Testing Everything
+
+```powershell
+# 1. Test basic API
+D:/Python/python.exe test_api.py
+
+# 2. Test versioning
+D:/Python/python.exe test_versioning.py
+
+# 3. Test web interface
+Start-Process "http://127.0.0.1:8000/"
+```
+
+---
+
+## 🔧 Troubleshooting Commands
+
+### Server Won't Start (Port in Use)
+```powershell
+Get-Process python* | Stop-Process -Force
+Start-Sleep -Seconds 2
+.\launch.ps1
+```
+
+### Clear DVC Cache
+```powershell
+dvc cache clear
+dvc repro
+```
+
+### Reinstall Dependencies
+```powershell
+pip install -r requirements.txt --force-reinstall
+```
+
+### Check Python Version
+```powershell
+D:/Python/python.exe --version
+```
+
+Should be Python 3.12.2 or higher.
+
+---
+
+## 📊 DVC Pipeline Commands
+
+### Run Entire Pipeline
+```powershell
+dvc repro
+```
+
+### Run Specific Stage
+```powershell
+# Preprocessing only
+dvc repro preprocess
+
+# Training only
+dvc repro train
+
+# Evaluation only
+dvc repro evaluate
+
+# Predictions only
+dvc repro predict
+```
+
+### View Pipeline Status
+```powershell
+dvc status
+```
+
+### View Pipeline DAG
+```powershell
+dvc dag
+```
+
+---
+
+## 🎨 Web Interface Usage
+
+1. **Start:** `.\launch.ps1`
+2. **Enter water parameters** or press `Ctrl + L` for sample data
+3. **Click "Predict Water Quality"**
+4. **Scroll down** to see:
+   - Results table
+   - Retrain buttons (✅ Potable / ⛔ Not Potable)
+5. **Top of page:** Model version dropdown
+6. **Click retrain button** → Wait 30-60 seconds → New version created
+
+---
+
+## 💡 Pro Tips
+
+### Fastest Way to Run Everything
+```powershell
+.\launch.ps1
+```
+
+### Test in Incognito (No Cache Issues)
+```powershell
+Start-Process chrome -ArgumentList "--incognito","http://127.0.0.1:8000/"
+```
+
+### Background Server (Keeps Running)
+```powershell
+Start-Job -ScriptBlock {
+    Set-Location 'd:\Mlops-Project'
+    & 'D:/Python/python.exe' -m uvicorn main:app --host 127.0.0.1 --port 8000
+}
+```
+
+### Check Background Job
+```powershell
+Get-Job
+```
+
+### Stop Background Job
+```powershell
+Get-Job | Stop-Job
+Get-Job | Remove-Job
+```
+
+---
+
+## 📁 Important Files
+
+| File | Purpose |
+|------|---------|
+| `launch.ps1` | **Start server + open browser** |
+| `test_api.py` | Test all API endpoints |
+| `test_versioning.py` | Test model versions |
+| `force_clear_cache.ps1` | Clear browser cache |
+| `params.yaml` | Model hyperparameters |
+| `dvc.yaml` | Pipeline definition |
+| `metrics.json` | Training metrics |
+
+---
+
+## 🆘 Common Issues & Fixes
+
+### Issue: "Buttons not showing"
+**Fix:**
+```powershell
+.\force_clear_cache.ps1
+```
+Or press `Ctrl + F5` in browser.
+
+---
+
+### Issue: "Port 8000 already in use"
+**Fix:**
+```powershell
+Get-Process python* | Stop-Process -Force
+.\launch.ps1
+```
+
+---
+
+### Issue: "Model not found"
+**Fix:**
+```powershell
+dvc repro
+```
+
+---
+
+### Issue: "Import errors"
+**Fix:**
+```powershell
+pip install -r requirements.txt
+```
+
+---
+
+## ✅ Verification Checklist
+
+Run these to verify everything works:
+
+```powershell
+# 1. Check Python
+D:/Python/python.exe --version
+
+# 2. Check DVC
+dvc version
+
+# 3. Check model exists
+Test-Path "models/model.joblib"
+
+# 4. Start server
+.\launch.ps1
+
+# 5. In browser: http://127.0.0.1:8000/
+#    - See model dropdown at top ✅
+#    - Make prediction ✅
+#    - See retrain buttons ✅
+```
+
+---
+
+## 🎉 That's It!
+
+**Most common command you'll use:**
+```powershell
+.\launch.ps1
+```
+
+This starts everything and opens your browser!
+
+---
+
+**Need help?** Check these files:
+- `README.md` - Project overview
+- `WEB_INTERFACE.md` - Web UI guide
+- `MODEL_VERSIONING_GUIDE.md` - Versioning details
+- `TROUBLESHOOTING.md` - Common problems
+- `RETRAINING_STATUS.md` - Retraining info
+
+---
+
+*Last Updated: 2025-10-09*

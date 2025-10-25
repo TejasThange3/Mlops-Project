@@ -1,0 +1,58 @@
+# Paramettrain:
+  model_type: "Ensemble"  # Use ensemble for maximum accuracy
+  random_state: 42
+
+  # RandomForest parameters - REGULARIZED to prevent overfitting
+  n_estimators: 200  # Reduced from 600
+  max_depth: 10  # Reduced from 25 (less overfitting)
+  min_samples_split: 10  # Increased from 2 (more regularization)
+  min_samples_leaf: 5  # Increased from 1 (more regularization)
+  max_features: "sqrt"  # Only use subset of features per split
+  class_weight: "balanced"
+
+  # XGBoost parameters - REGULARIZED to prevent overfitting
+  learning_rate: 0.05
+  max_depth_xgb: 5  # Reduced from 8 (less overfitting)
+  n_estimators_xgb: 300  # Reduced from 600
+  scale_pos_weight: 1.56  # Ratio: 1398/895
+  subsample: 0.8  # Reduced from 0.9 (more regularization)
+  colsample_bytree: 0.8  # Reduced from 0.9 (more regularization)
+  gamma: 2.0  # Increased from 0.5 (more regularization)
+  min_child_weight: 5  # Increased from 1 (more regularization)
+  reg_alpha: 0.1  # L1 regularization
+  reg_lambda: 1.0  # L2 regularizationlity Prediction Pipeline
+
+preprocess:
+  test_size: 0.2
+  random_state: 42
+  missing_value_strategy: "drop" # Drop rows with missing values for cleaner data
+  imputation_strategy: "mean" # Used if missing_value_strategy is 'impute'
+  feature_scaling: true # Standardize features for better performance
+
+train:
+  model_type: "Ensemble" # Use ensemble for maximum accuracy
+  random_state: 42
+
+  # RandomForest parameters (for ensemble) - More trees, deeper
+  n_estimators: 600
+  max_depth: 25
+  min_samples_split: 2
+  min_samples_leaf: 1
+  class_weight: "balanced_subsample"
+
+  # XGBoost parameters (for ensemble) - Optimized for new dataset
+  learning_rate: 0.05
+  max_depth_xgb: 8
+  n_estimators_xgb: 600
+  scale_pos_weight: 1.56 # New ratio: 1398/895
+  subsample: 0.9
+  colsample_bytree: 0.9
+  gamma: 0.5
+  min_child_weight: 1
+
+evaluate:
+  metrics:
+    - accuracy
+    - precision
+    - recall
+    - f1_score
