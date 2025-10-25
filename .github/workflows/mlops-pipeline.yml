@@ -1,16 +1,11 @@
 name: MLOps Pipeline - Train & Test
 
 on:
-  push:
-    branches:
-      - main
-      - develop
-  pull_request:
-    branches:
-      - main
   schedule:
     # Run daily at 2 AM UTC
     - cron: "0 2 * * *"
+  workflow_dispatch:
+    # Allow manual trigger
 
 jobs:
   # Job 1: Data Validation
@@ -72,7 +67,7 @@ jobs:
           cat metrics.json
 
       - name: Upload metrics
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: metrics
           path: metrics.json
@@ -99,7 +94,7 @@ jobs:
           pytest -v --cov=src --tb=short
 
       - name: Upload coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./coverage.xml
           flags: unittests
