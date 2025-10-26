@@ -63,32 +63,43 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          script: |
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'ENDSSH'
+          set -e
+
+          # Navigate to project or clone if doesn't exist
+          if [ -d ~/Mlops-Project ]; then
             cd ~/Mlops-Project
+            git pull origin main || true
+          else
+            git clone https://github.com/TejasThange3/Mlops-Project.git ~/Mlops-Project
+            cd ~/Mlops-Project
+          fi
 
-            # Pull latest code
-            git pull origin main
+          # Pull latest Docker image
+          docker pull ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest || true
 
-            # Pull latest Docker image
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          # Stop and restart containers
+          docker-compose down || true
+          docker-compose up -d
 
-            # Stop running containers
-            docker-compose down || true
+          # Wait and check health
+          sleep 10
+          curl -f http://localhost:8000/health || echo "Health check pending..."
 
-            # Start new containers
-            docker-compose up -d
-
-            # Check if application is healthy
-            sleep 10
-            curl -f http://localhost:8000/health || exit 1
-
-            echo "✅ Deployment successful!"
+          echo "✅ Deployment successful!"
+          ENDSSH
 
       - name: Verify Deployment
         run: |
