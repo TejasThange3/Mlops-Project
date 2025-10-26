@@ -1,6 +1,7 @@
 // Water Potability Prediction - Frontend JavaScript
 
-const API_BASE_URL = 'http://127.0.0.1:8000';
+// Use the current hostname instead of hardcoded localhost
+const API_BASE_URL = `http://${window.location.hostname}:${window.location.port || 8000}`;
 
 // Parameter information with typical ranges and descriptions
 const parameterInfo = {
@@ -88,6 +89,9 @@ document.getElementById('predictionForm').addEventListener('submit', async funct
 
     try {
         // Make API request
+        console.log(`Making prediction request to: ${API_BASE_URL}/predict`);
+        console.log('Request data:', formData);
+        
         const response = await fetch(`${API_BASE_URL}/predict`, {
             method: 'POST',
             headers: {
@@ -97,17 +101,20 @@ document.getElementById('predictionForm').addEventListener('submit', async funct
         });
 
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
         }
 
         const result = await response.json();
+        console.log('Prediction result:', result);
         
         // Display results
         displayResults(result, formData);
         
     } catch (error) {
         console.error('Error:', error);
-        alert('❌ Error making prediction. Please ensure the API server is running and try again.');
+        console.error('API URL was:', `${API_BASE_URL}/predict`);
+        showNotification('error', 'Prediction Error', `Error making prediction: ${error.message}`);
     } finally {
         // Hide loading indicator
         document.getElementById('loadingIndicator').style.display = 'none';
@@ -265,43 +272,54 @@ let lastPredictionData = null;
 // Fetch and populate model versions
 async function refreshModelVersions() {
     try {
+        console.log(`Fetching from: ${API_BASE_URL}/models/versions`);
         const response = await fetch(`${API_BASE_URL}/models/versions`);
+        
+        if (!response.ok) {
+            throw new Error(`API returned status ${response.status}`);
+        }
+        
         const data = await response.json();
+        console.log('Model versions data:', data);
         
         const select = document.getElementById('modelVersionSelect');
         select.innerHTML = ''; // Clear existing options
         
         // Populate with versions
-        data.versions.forEach(version => {
-            const option = document.createElement('option');
-            option.value = version.version;
+        if (data.versions && data.versions.length > 0) {
+            data.versions.forEach(version => {
+                const option = document.createElement('option');
+                option.value = version.version;
+                
+                // Format display text
+                let displayText = version.version;
+                if (version.version === 'Original') {
+                    displayText += ' (Ensemble)';
+                } else {
+                    displayText += ` - ${version.training_samples} samples`;
+                }
+                
+                // Add accuracy info
+                displayText += ` - ${(version.cv_accuracy * 100).toFixed(1)}% CV`;
+                
+                option.textContent = displayText;
+                
+                // Mark current version as selected
+                if (version.is_current) {
+                    option.selected = true;
+                }
+                
+                select.appendChild(option);
+            });
             
-            // Format display text
-            let displayText = version.version;
-            if (version.version === 'Original') {
-                displayText += ' (Ensemble)';
-            } else {
-                displayText += ` - ${version.training_samples} samples`;
-            }
-            
-            // Add accuracy info
-            displayText += ` - ${(version.cv_accuracy * 100).toFixed(1)}% CV`;
-            
-            option.textContent = displayText;
-            
-            // Mark current version as selected
-            if (version.is_current) {
-                option.selected = true;
-            }
-            
-            select.appendChild(option);
-        });
-        
-        showNotification('success', 'Versions Updated', 'Model versions refreshed successfully!');
+            showNotification('success', 'Versions Updated', 'Model versions refreshed successfully!');
+        } else {
+            showNotification('warning', 'No Versions', 'No model versions found.');
+        }
         
     } catch (error) {
         console.error('Error fetching model versions:', error);
-        showNotification('error', 'Error', 'Failed to fetch model versions.');
+        showNotification('error', 'Error', `Failed to fetch model versions: ${error.message}`);
     }
 }
 
