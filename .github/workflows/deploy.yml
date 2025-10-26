@@ -74,8 +74,8 @@ jobs:
 
             # Pull latest image and deploy
             docker pull ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest || true
-            docker-compose down || true
-            docker-compose up -d
+            docker compose down || true
+            docker compose up -d
 
             # Verify deployment
             sleep 5
