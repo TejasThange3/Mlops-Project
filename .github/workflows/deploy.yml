@@ -66,18 +66,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup SSH
+      - name: Setup SSH and Deploy
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
-
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} << 'ENDSSH'
+          
+          # Deploy script
+          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} bash -s << 'DEPLOY'
           set -e
-
+          echo "🚀 Starting deployment..."
+          
           # Navigate to project or clone if doesn't exist
           if [ -d ~/Mlops-Project ]; then
             cd ~/Mlops-Project
@@ -86,20 +86,20 @@ jobs:
             git clone https://github.com/TejasThange3/Mlops-Project.git ~/Mlops-Project
             cd ~/Mlops-Project
           fi
-
+          
           # Pull latest Docker image
           docker pull ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest || true
-
+          
           # Stop and restart containers
           docker-compose down || true
           docker-compose up -d
-
+          
           # Wait and check health
           sleep 10
           curl -f http://localhost:8000/health || echo "Health check pending..."
-
+          
           echo "✅ Deployment successful!"
-          ENDSSH
+          DEPLOY
 
       - name: Verify Deployment
         run: |
