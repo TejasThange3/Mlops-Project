@@ -4,17 +4,12 @@ on:
   push:
     branches:
       - main
-      - develop
-  pull_request:
-    branches:
-      - main
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: mlops-water-potability
 
 jobs:
-  # Job 1: Build and test
   build:
     runs-on: ubuntu-latest
     permissions:
@@ -23,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -37,8 +32,7 @@ jobs:
           pip install pytest
 
       - name: Run tests
-        run: |
-          pytest -v --tb=short || true
+        run: pytest -v --tb=short || true
 
       - name: Build Docker image
         run: |
@@ -46,109 +40,44 @@ jobs:
           docker build -t ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest .
 
       - name: Log in to Container Registry
-        if: github.event_name == 'push'
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u $ --password-stdin
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u $ --password-stdin
 
       - name: Push Docker image
-        if: github.event_name == 'push'
         run: |
           docker push ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:${{ github.sha }}
           docker push ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest
 
-  # Job 2: Deploy to EC2
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup SSH and Deploy
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
-          
-          # Deploy script
-          ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=~/.ssh/known_hosts -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_HOST }} bash -s << 'DEPLOY'
-          set -e
-          echo "🚀 Starting deployment..."
-          
-          # Navigate to project or clone if doesn't exist
-          if [ -d ~/Mlops-Project ]; then
-            cd ~/Mlops-Project
-            git pull origin main || true
-          else
-            git clone https://github.com/TejasThange3/Mlops-Project.git ~/Mlops-Project
-            cd ~/Mlops-Project
-          fi
-          
-          # Pull latest Docker image
-          docker pull ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest || true
-          
-          # Stop and restart containers
-          docker-compose down || true
-          docker-compose up -d
-          
-          # Wait and check health
-          sleep 10
-          curl -f http://localhost:8000/health || echo "Health check pending..."
-          
-          echo "✅ Deployment successful!"
-          DEPLOY
-
-      - name: Verify Deployment
-        run: |
-          echo "🎉 Application deployed successfully!"
-          echo "Access at: http://${{ secrets.EC2_HOST }}:8000"
-
-      - name: Slack Notification (Success)
-        if: success()
-        continue-on-error: true
-        uses: slackapi/slack-github-action@v1.24.0
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          payload: |
-            {
-              "text": "✅ Deployment Successful",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*GitHub Actions - Deployment Successful* ✅\n\n*Repository:* ${{ github.repository }}\n*Branch:* ${{ github.ref_name }}\n*Commit:* ${{ github.sha }}\n*Triggered by:* ${{ github.actor }}"
-                  }
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Application running at:*\nhttp://${{ secrets.EC2_HOST }}:8000"
-                  }
-                }
-              ]
-            }
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -e
+            echo "🚀 Deploying to EC2..."
 
-      - name: Slack Notification (Failure)
-        if: failure()
-        continue-on-error: true
-        uses: slackapi/slack-github-action@v1.24.0
-        with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK_URL }}
-          payload: |
-            {
-              "text": "❌ Deployment Failed",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*GitHub Actions - Deployment Failed* ❌\n\n*Repository:* ${{ github.repository }}\n*Branch:* ${{ github.ref_name }}\n*Commit:* ${{ github.sha }}"
-                  }
-                }
-              ]
-            }
+            # Clone or update repo
+            if [ -d ~/Mlops-Project ]; then
+              cd ~/Mlops-Project
+              git pull origin main || true
+            else
+              git clone https://github.com/TejasThange3/Mlops-Project.git ~/Mlops-Project
+              cd ~/Mlops-Project
+            fi
+
+            # Pull latest image and deploy
+            docker pull ${{ env.REGISTRY }}/tejasthange3/${{ env.IMAGE_NAME }}:latest || true
+            docker-compose down || true
+            docker-compose up -d
+
+            # Verify deployment
+            sleep 5
+            curl -s http://localhost:8000/health || true
+            echo "✅ Deployment complete!"
