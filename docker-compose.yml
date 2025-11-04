@@ -9,6 +9,7 @@ services:
     volumes:
       - ./data:/app/data
       - ./models:/app/models
+      - ./Data-set:/app/Data-set
     environment:
       - PYTHONUNBUFFERED=1
       - MODEL_PATH=/app/models/model.joblib
