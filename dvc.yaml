@@ -1,6 +1,6 @@
 stages:
   preprocess:
-    cmd: D:/Python/python.exe src/preprocess_presplit.py
+    cmd: python src/preprocess_presplit.py
     deps:
       - Data-set/train_dataset.csv
       - Data-set/test_dataset.csv
@@ -14,7 +14,7 @@ stages:
       - data/test.csv
 
   train:
-    cmd: D:/Python/python.exe src/train_ensemble.py
+    cmd: python src/train_ensemble.py
     deps:
       - data/train.csv
       - src/train_ensemble.py
@@ -42,7 +42,7 @@ stages:
       - models/model.joblib
 
   evaluate:
-    cmd: D:/Python/python.exe src/evaluate.py
+    cmd: python src/evaluate.py
     deps:
       - data/train.csv
       - models/model.joblib
@@ -52,7 +52,7 @@ stages:
           cache: false
 
   predict:
-    cmd: D:/Python/python.exe src/predict_test.py
+    cmd: python src/predict_test.py
     deps:
       - data/test.csv
       - models/model.joblib
