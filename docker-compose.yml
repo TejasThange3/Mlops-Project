@@ -1,85 +1,16 @@
 version: '3.8'
 
 services:
-  # Main FastAPI Application
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  mlops-api:
+    image: ghcr.io/tejasthange3/mlops-water-potability:latest
     container_name: mlops-water-potability-app
     ports:
       - "8000:8000"
     volumes:
-      # Mount data directory for persistence
       - ./data:/app/data
       - ./models:/app/models
-      - ./logs:/app/logs
-      # Mount dataset directory
-      - ./Data-set:/app/Data-set:ro
     environment:
-      # Application settings
       - PYTHONUNBUFFERED=1
-      - PYTHONDONTWRITEBYTECODE=1
-      # API configuration
-      - API_HOST=0.0.0.0
-      - API_PORT=8000
-      # Model paths
       - MODEL_PATH=/app/models/model.joblib
       - SCALER_PATH=/app/models/scaler.joblib
-      # DVC configuration
-      - DVC_NO_ANALYTICS=1
-    networks:
-      - mlops-network
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 5s
-    depends_on:
-      - db
-
-  # PostgreSQL Database (Optional, for future scalability)
-  db:
-    image: postgres:15-alpine
-    container_name: mlops-postgres
-    environment:
-      POSTGRES_DB: mlops_db
-      POSTGRES_USER: mlops_user
-      POSTGRES_PASSWORD: mlops_password_secure_change_me
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - mlops-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U mlops_user"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  # Redis for caching (Optional, for future performance)
-  redis:
-    image: redis:7-alpine
-    container_name: mlops-redis
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-    networks:
-      - mlops-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 3s
-      retries: 3
-
-volumes:
-  postgres_data:
-  redis_data:
-
-networks:
-  mlops-network:
-    driver: bridge
