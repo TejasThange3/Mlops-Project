@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mlops-api:
-    image: ghcr.io/tejasthange3/mlops-water-potability:latest
+    image: tejas329/mlops-water-potability:latest
     container_name: mlops-water-potability-app
     ports:
       - "8000:8000"

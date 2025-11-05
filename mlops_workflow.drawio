@@ -1,0 +1,132 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="28.2.9">
+  <diagram name="Page-1" id="QsEZA-swCjT8N7dIG4-P">
+    <mxGraphModel dx="2426" dy="1314" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--30" value="User and Retraining Loop" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;" vertex="1" parent="1">
+          <mxGeometry x="1165" y="711.5" width="330" height="279" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--31" value="Production on AWS EC2" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;" vertex="1" parent="1">
+          <mxGeometry x="810" y="526.5" width="335" height="640" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--32" value="CI CD Pipeline" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;" vertex="1" parent="1">
+          <mxGeometry x="288" y="540" width="330" height="613" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--33" value="Local Development" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;" vertex="1" parent="1">
+          <mxGeometry x="20" y="20" width="570" height="447" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--34" value="1. Develop ML Pipeline (Preprocess, Train, Evaluate)" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="55" y="303" width="260" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--60" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--35" target="-YsEq8_M8ocXJgbp3SE--36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--35" value="2. DVC Repro" style="rhombus;strokeWidth=2;whiteSpace=wrap;fontSize=25;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="111" y="45" width="148" height="148" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--36" value="3. Code &amp; DVC Files" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="352" y="92" width="202" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--37" value="4. GitHub Trigger" style="rhombus;strokeWidth=2;whiteSpace=wrap;fontSize=25;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="365" y="265" width="177" height="177" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--38" value="5. Run Tests (pytest)" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="350" y="565" width="207" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--39" value="6. Build Docker Image" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="345" y="692" width="217" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--40" value="7. Push Image to Registry (ghcr.io)" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="323" y="796" width="260" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--41" value="8. SSH into EC2" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="369" y="946" width="169" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--59" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--42" target="-YsEq8_M8ocXJgbp3SE--31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--42" value="9. Docker Compose Down &amp; Up" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="323" y="1050" width="260" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--43" value="10. FastAPI App Running in Docker Container" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;fontSize=25;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="879" y="551.5" width="215" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--44" value="Model Artifacts (model.joblib, versions)" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="845" y="1063.5" width="260" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--45" value="11. User Access (Web UI / API)" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="736.5" width="260" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--46" value="12. Retrain Endpoint (/retrain)" style="whiteSpace=wrap;strokeWidth=2;fontSize=25;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="887.5" width="260" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--47" value="Manages" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--35" target="-YsEq8_M8ocXJgbp3SE--34">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--48" value="Git Push" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--36" target="-YsEq8_M8ocXJgbp3SE--37">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--49" value="deploy.yml" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--37" target="-YsEq8_M8ocXJgbp3SE--38">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--50" value="On Pass" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--38" target="-YsEq8_M8ocXJgbp3SE--39">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--51" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0.99;entryX=0.5;entryY=-0.01;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--39" target="-YsEq8_M8ocXJgbp3SE--40">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--52" value="Triggers Deploy Job" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=0.99;entryX=0.5;entryY=0;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--40" target="-YsEq8_M8ocXJgbp3SE--41">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--53" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--41" target="-YsEq8_M8ocXJgbp3SE--42">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--55" value="Loads" style="curved=1;startArrow=none;endArrow=block;exitX=0.27;exitY=1;entryX=0.38;entryY=0;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--43" target="-YsEq8_M8ocXJgbp3SE--44">
+          <mxGeometry x="0.2218" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="914" y="686.5" />
+              <mxPoint x="914" y="1026.5" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--56" value="" style="curved=1;startArrow=block;endArrow=block;exitX=0.75;exitY=1;entryX=0;entryY=0.1;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--43" target="-YsEq8_M8ocXJgbp3SE--45">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1064" y="686.5" />
+              <mxPoint x="1064" y="711.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--57" value="Sends Feedback" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--45" target="-YsEq8_M8ocXJgbp3SE--46">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-YsEq8_M8ocXJgbp3SE--58" value="Saves New Version" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.59;entryY=0;rounded=0;strokeWidth=2;fontSize=25;" edge="1" parent="1" source="-YsEq8_M8ocXJgbp3SE--46" target="-YsEq8_M8ocXJgbp3SE--44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1330" y="990.5" />
+              <mxPoint x="1019" y="1026.5" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
