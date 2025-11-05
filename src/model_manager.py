@@ -207,7 +207,27 @@ class ModelVersionManager:
             incremental_df.to_csv(self.training_data_file, index=False)
             
             # Load original training data
-            original_train = pd.read_csv("Data-set/train_dataset.csv")
+            # Try multiple paths to find the dataset
+            dataset_paths = [
+                "Data-set/train_dataset.csv",
+                "../Data-set/train_dataset.csv",
+                "/app/Data-set/train_dataset.csv",
+                os.path.expanduser("~/Mlops-Project/Data-set/train_dataset.csv")
+            ]
+            
+            original_train = None
+            for path in dataset_paths:
+                try:
+                    if os.path.exists(path):
+                        original_train = pd.read_csv(path)
+                        break
+                except:
+                    continue
+            
+            if original_train is None:
+                raise FileNotFoundError(
+                    f"Could not find train_dataset.csv in any of these locations: {dataset_paths}"
+                )
             
             # Combine original + incremental data
             combined_df = pd.concat([original_train, incremental_df], ignore_index=True)
